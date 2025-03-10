@@ -2,7 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
-from project.group import Group
+from group import Group
 import unittest
 
 class TestAddGroup(unittest.TestCase):
