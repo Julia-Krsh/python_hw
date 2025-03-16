@@ -1,19 +1,15 @@
 class Group_hw1:
-    def __init__(self, firstname,
-                middlename, lastname,
-                nickname, title,
-                company, address,
-                home, mobile,
-                work, fax,
-                email, email2,
-                email3, homepage,
-                bday, bmonth, byear,
-                aday, amonth, ayear):
+    def __init__(self, firstname, middlename,
+                 lastname, title, nickname,
+                 company, address, home, mobile,
+                 work, fax, email, email2, email3,
+                 homepage, bday, bmonth, byear,
+                 aday, amonth, ayear):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
-        self.nickname = nickname
         self.title = title
+        self.nickname = nickname
         self.company = company
         self.address = address
         self.home = home
@@ -30,3 +26,4 @@ class Group_hw1:
         self.aday = aday
         self.amonth = amonth
         self.ayear = ayear
+
