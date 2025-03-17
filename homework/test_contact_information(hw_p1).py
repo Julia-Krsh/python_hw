@@ -2,35 +2,34 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.firefox.service import Service
-from group_hw1 import Group_hw1
 import unittest
+from group_hw1 import Group_hw1
+
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
-        service = Service(executable_path="C:\\Windows\\SysWOW64\\geckodriver.exe")
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
-    def Open_home_page(self, wd):
-        # Open home page
+    def open_home_page(self, wd):
+        # open home page
         wd.get("http://localhost/addressbook/")
 
-    def Login(self, wd, username, password):
-        # Login
+    def login(self, wd, username, password):
+        # login
         wd.find_element(By.NAME, "user").click()
         wd.find_element(By.NAME, "user").clear()
         wd.find_element(By.NAME, "user").send_keys(username)
         wd.find_element(By.NAME, "pass").click()
         wd.find_element(By.NAME, "pass").clear()
         wd.find_element(By.NAME, "pass").send_keys(password)
-        wd.find_element(By.XPATH, "//input[@value='Login']").click()
+        # submit loginform
+        wd.find_element(By.ID, "LoginForm").submit()
 
-    def Create_new_contact(self, wd, group_hw1):
-        # Create new contact
+    def create_new_contact(self, wd, group_hw1):
         # init contact creation
         wd.find_element(By.LINK_TEXT, "add new").click()
-        # fill group form
+        # fill contact form
         wd.find_element(By.NAME, "firstname").click()
         wd.find_element(By.NAME, "firstname").clear()
         wd.find_element(By.NAME, "firstname").send_keys(group_hw1.firstname)
@@ -78,38 +77,47 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element(By.NAME, "homepage").send_keys(group_hw1.homepage)
         wd.find_element(By.NAME, "bday").click()
         Select(wd.find_element(By.NAME, "bday")).select_by_visible_text(group_hw1.bday)
-        wd.find_element(By.XPATH, "//option[@value='10']").click()
+        wd.find_element(By.XPATH, "//option[@value='19']").click()
         wd.find_element(By.NAME, "bmonth").click()
         Select(wd.find_element(By.NAME, "bmonth")).select_by_visible_text(group_hw1.bmonth)
-        wd.find_element(By.XPATH, "//option[@value='June']").click()
+        wd.find_element(By.XPATH, "//option[@value='September']").click()
         wd.find_element(By.NAME, "byear").click()
         wd.find_element(By.NAME, "byear").clear()
         wd.find_element(By.NAME, "byear").send_keys(group_hw1.byear)
         wd.find_element(By.NAME, "aday").click()
         Select(wd.find_element(By.NAME, "aday")).select_by_visible_text(group_hw1.aday)
-        wd.find_element(By.XPATH, "//div[@id='content']/form/select[3]/option[12]").click()
+        wd.find_element(By.XPATH, "//div[@id='content']/form/select[3]/option[21]").click()
         wd.find_element(By.NAME, "amonth").click()
         Select(wd.find_element(By.NAME, "amonth")).select_by_visible_text(group_hw1.amonth)
-        wd.find_element(By.XPATH, "//div[@id='content']/form/select[4]/option[7]").click()
+        wd.find_element(By.XPATH, "//div[@id='content']/form/select[4]/option[10]").click()
         wd.find_element(By.NAME, "ayear").click()
         wd.find_element(By.NAME, "ayear").clear()
         wd.find_element(By.NAME, "ayear").send_keys(group_hw1.ayear)
-        # Submit contact creation
-        wd.find_element(By.NAME, "theform").submit()
+        wd.find_element(By.XPATH, "//div[@id='content']/form/input[20]").click()
 
-    def Logout(self, wd):
-        # Logout
+    def return_to_homepage(self, wd):
+        # return to home page
+        wd.find_element(By.LINK_TEXT, "home page").click()
+
+    def logout(self, wd):
+        # logout
         wd.find_element(By.LINK_TEXT, "Logout").click()
 
     def test_untitled_test_case(self):
         wd = self.wd
-        self.Open_home_page(wd)
-        self.Login(wd, "admin", "secret")
-        self.Create_new_contact(wd, "Sabrina", "Mark", "Adamson", "worker", "S@_brin@", "Froffice",
-                                "34e, Lenina Street, 5, Omsk, Russia", "-", "7(978) 199-08-09", "7(999) 100-99-99",
-                                "(499) 772-5189", "-", "SabrinaAdamson@mail.ru", "-", "-", "10", "June", "1996", "10",
-                                "June", "2026")
-        self.Logout(wd)
+        self.open_home_page(wd)
+        self.login(wd, "admin", "secret")
+
+        self.create_new_contact(wd, Group_hw1("Kate", "Charles",
+                                              "Smith", "K@Te_", "cashier",
+                                              "Read-town","34e, Lenina Str.,Omck, Russia",
+                                              "-", "+8 (908) 996-75-44",
+                                              "+8 (555) 333-22-33","(499) 772-5189",
+                                              "SmithKate@mail.ru", "-", "-", "-",
+                                              "19", "September", "1997", "19",
+                                              "September", "2027"))
+        self.return_to_homepage(wd)
+        self.logout(wd)
 
     def tearDown(self):
         self.wd.quit()
